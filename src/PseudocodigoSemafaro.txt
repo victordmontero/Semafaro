@@ -1,0 +1,33 @@
+Algoritmo_Semafaro_Interseccion
+
+Funcion CambiarSemafaro(Entero:Semafaro,Entero:offset)
+Inicio
+	Si Semafaro <= 0
+		Semafaro = offset;
+	Sino
+		Semafaro = Semafaro - 1;
+	Fin_Si
+	Retornar Semafaro
+Fin
+
+Funcion ImprimirConColor(Entero:S)
+Inicio
+	Si S > 30
+	   Imprimir en Verde
+	Sino
+	   Imprimir en Rojo
+Fin
+
+Variables
+	Entero:Semafaros(4) = (30,60,90,120)
+	Entero:Duracion_Total = 120
+Inicio
+	Mientras No se Pulse Detener
+		Para indice = 0 hasta Tamanyo(Semafaros) Paso 1
+		     Semafaros(indice) = CambiarSemafaro(Semafaros(indice),Duracion_Total)
+		     ImprimirConColor(Semafaros(indice))
+		Fin_Para
+		
+		Retrasar un segundo
+	Fin_Mientras
+Fin
