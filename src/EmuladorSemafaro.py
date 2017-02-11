@@ -38,13 +38,29 @@ class Semafaro(object):
             sleep(self.velocidad);
 
 
+
+
+class App(tk.Frame):
+	"""docstring for App
+"""
+	def __init__(self, master=None):
+		self.canvas = tk.Canvas(master)
+		self.grid()
+		self.imgParar = tk.PhotoImage(file="../gfx/stopn.gif")
+		self.canvas.create_image(0,0,image=imgParar)
+
+app = App()
+app.master.title = "Semafaro"
+app.mainloop()
+
+### tkinter ui frame
 class Application(tk.Frame):
     def __init__(self,master=None):
         tk.Frame.__init__(self,master)
         self.crearComponentes(master)
         self.lienzo
         self.btnPausar
-        self.crearSemafaros()
+        #self.crearSemafaros()
 
     def crearComponentes(self,master):
         top = tk.Frame(master)
@@ -57,6 +73,10 @@ class Application(tk.Frame):
         self.btnPausar.bind('<ButtonRelease-1>',self.onClick)
         self.lienzo = tk.Canvas(top)
         self.lienzo.grid(row=1,column=0,columnspan=3)
+        imgParar = tk.PhotoImage(file="../gfx/stopn.gif")
+        self.semafaro = Semafaro([30,60,90,120],120,0.1,callback=self.actualizar)
+        self.lienzo.create_image(5,5,image=imgParar)
+        self.lienzo.pack()
 
     def actualizar(self,semafaro):
         if(semafaro < 30):
@@ -68,8 +88,9 @@ class Application(tk.Frame):
         imgParar = tk.PhotoImage(file="../gfx/stopn.gif")
         self.semafaro = Semafaro([30,60,90,120],120,0.1,callback=self.actualizar)
         self.lienzo.create_image(5,5,image=imgParar)
-        self.lienzo.grid(row=1,column=0,columnspan=3)
-        self.after(100 ,self.semafaro.CambiarSemafaro,self.semafaro.Ss,self.semafaro.DURACION_TOTAL)
+        self.lienzo.image = imgParar
+        self.lienzo.pack()
+        #self.after(100 ,self.semafaro.CambiarSemafaro, self.semafaro.Ss,self.semafaro.DURACION_TOTAL)
 
     def onClick(self,event):
         self.semafaro.IniciarEmulacion(False)
@@ -77,6 +98,8 @@ class Application(tk.Frame):
         
 
 
-app = Application()
-app.master.title('Emulador de Semafaro')
-app.mainloop()
+#app = Application()
+#app.master.title('Emulador de Semafaro')
+#app.mainloop()
+
+
