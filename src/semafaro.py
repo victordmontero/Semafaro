@@ -1,37 +1,33 @@
-
-"""
-Este Codigo No funciona con Linux
-"""
-
 from termcolor import *;
 import colorama;
 from time import sleep;
-from os import system;
-import sys;
-from msvcrt import kbhit
 colorama.init();
 
-Ss = [30,60,90,120];
-DURACION_TOTAL = 120
+class Semafaro(object):
+    def __init__(self,Semafaros,DurTotal=120,vel=0.1,callback=None):
+        self.Ss = Semafaros
+        self.DURACION_TOTAL = DurTotal
+        self.parado = False
+        self.velocidad = vel
+        self.dibujarSemafaro=callback
 
-def CambiarSemafaro(sem,offset):
-    if(sem <= 0):
-        sem = offset;
-    else:
-        sem = sem - 1;
-    return sem;
-
-def Imprimir(S):
-    if(S < 30):
-        cprint(S,"green");
-    else:
-        cprint(S,"red");
-
-while (not kbhit()):
-    system('cls');
+    def _CambiarSemafaro(self,sem,offset):
+        if(sem <= 0):
+            sem = offset;
+        else:
+            sem = sem - 1;
+        return sem;
     
-    for i in range(len(Ss)):
-        Ss[i] = CambiarSemafaro(Ss[i],DURACION_TOTAL);
-        Imprimir(Ss[i]);
-        
-    sleep(0.10);
+    def _Imprimir(self,S):
+        if(S < 10):
+            cprint(S,"green");
+        else:
+            cprint(S,"red");
+
+    def IniciarEmulacion(self,parar):
+        while (not parar):
+            for i in range(len(self.Ss)):
+               self.Ss[i] = self.CambiarSemafaro(self.Ss[i],self.DURACION_TOTAL);
+               self.dibujarSemafaro(self.Ss[i])
+               #self.Imprimir(self.Ss[i])
+            sleep(self.velocidad);
