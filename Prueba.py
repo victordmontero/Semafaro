@@ -1,5 +1,4 @@
 import tkinter as tk
-from time import sleep;
 
 class Semafaro(object):
 	CUENTATOTAL = 120
@@ -13,7 +12,7 @@ class Semafaro(object):
 		self.Coords = coords
 
 	def Comprobar(self):
-		if self.contador > -1:
+		if self.contador > 0:
 			if self.contador < self.MINIMO:
 				self.actual = self.verde
 			else:
@@ -32,17 +31,14 @@ class App(tk.Frame):
 		self.canvas = tk.Canvas(master)
 		self.canvas.grid(row=1,column=0,sticky=tk.W+tk.E)
 		self.semafaros = [Semafaro("W",30,self.semafarosImg[0],self.semafarosImg[1],(19,120)),
-						  Semafaro("E",60,self.semafarosImg[0],self.semafarosImg[1],(360,120)),
-						  Semafaro("N",90, self.semafarosImg[0], self.semafarosImg[1],(190,50)),
+						  Semafaro("E",90,self.semafarosImg[0],self.semafarosImg[1],(360,120)),
+						  Semafaro("N",60, self.semafarosImg[0], self.semafarosImg[1],(190,50)),
 						  Semafaro("S",120, self.semafarosImg[0], self.semafarosImg[1],(190,220))]
 		self.crearComponentes()
 		self.actualizar()
 
 	def crearComponentes(self):
 		print(self.canvas.winfo_width())
-		"""self.canvas.create_image(19,120,image=self.semafarosImg[0],tags="W")
-		self.canvas.create_image(360,120,image=self.semafarosImg[1],tags="E")
-		self.canvas.create_image(190, 50, image=self.semafarosImg[1],tags="N")"""
 		for i in self.semafaros:
 			self.canvas.create_image(i.Coords[0],i.Coords[1], image=i.actual, tags=i.tag)
 
@@ -62,19 +58,14 @@ class App(tk.Frame):
 				s.Comprobar()
 				self.cambiarSemafaro()
 				print(s.contador)
-		self.canvas.after(100,self.actualizar)
+		self.canvas.after(1000,self.actualizar)
 
 	def cambiarSemafaro(self):
-		coords = [self.canvas.coords("N"),
-					 self.canvas.coords("S"),
-					 self.canvas.coords("W"),
-					 self.canvas.coords("E")]
 		for i in self.semafaros:
 			self.canvas.create_image(i.Coords[0], i.Coords[1], image=i.actual, tags=i.tag)
 
 
 	def onClick(self,e):
-		print(self.corriendo)
 		self.corriendo = not self.corriendo
 
 
